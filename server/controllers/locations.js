@@ -6,6 +6,6 @@ module.exports = {
     res.render('location-info', { title: 'Review location' });
   },
   createComment(req, res, next) {
-    res.render('index', { title: 'Create comment' });
+    res.render('location-review-form', { title: 'Create comment' });
   },
 };
