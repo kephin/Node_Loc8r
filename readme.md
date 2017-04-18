@@ -39,3 +39,15 @@
   - Modify the folder structure by adding models and controllers folders
   - Update views/routers folder location inside *app.js*
   - Add an *Procfile*
+
+**Building a static site with Node and Express**
+  - Sketch a table to define specific route for each screen, like the table below
+
+| Collection | Screen | URL |
+|---|---|---|
+| Locations | List of locations(homepage) | / |
+| Locations | Location details | /location |
+| Locations | Location review form | /location/review/new |
+| Others | About Loc8r | /about |
+
+  - Set up routes and controllers
