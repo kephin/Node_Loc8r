@@ -51,3 +51,5 @@
 | Others | About Loc8r | /about |
 
   - Set up routes and controllers
+  - Add basic bootstrap for them
+
