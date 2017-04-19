@@ -54,4 +54,5 @@
   - Add basic bootstrap for them
   - Sketches the desktop and mobile layout for the homepage **(Important!)**
   - Complete the static pages with hard code data
+  - Move the data from views to controllers
 
