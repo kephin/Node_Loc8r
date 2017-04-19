@@ -76,6 +76,11 @@ module.exports = {
     });
   },
   createComment(req, res, next) {
-    res.render('location-review-form', { title: 'Create comment' });
+    res.render('location-review-form', {
+      title: 'Review Starcups on Loc8r',
+      pageHeader: {
+        title: 'Review Starcups'
+      }
+    });
   },
 };
