@@ -17,12 +17,7 @@
               <a href="/location"><%= location.name %></a>
               <small>
                 &nbsp;
-                <% for(let count = 0; count < location.rating; count++ ) { %>
-                  <span class="glyphicon glyphicon-star"></span>
-                <% } %>
-                <% for(let count = 0; count <  5 - location.rating; count++ ) { %>
-                  <span class="glyphicon glyphicon-star-empty"></span>
-                <% } %>
+                <%- include('_includes/rating', { rating: location.rating }); %>
               </small>
               <span class="badge pull-right badge-default"><%= location.distance %></span>
             </h4>
