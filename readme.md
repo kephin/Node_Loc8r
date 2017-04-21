@@ -56,3 +56,55 @@
   - Complete the static pages with hard code data
   - Move the data from views to controllers
 
+**Building a data model with MongoDB and Mongoose**
+
+*<Part 1> Config*
+
+  - Connecting the Express application to MongoDB with Mongoose
+    1. Install mongoose by `npm install mongoose --save`
+    2. Creating server/config/mongoose.js
+    3. Require it into app.js
+  - Inside config/mongoose.js
+    1. Creating mongoose connection by `mongoose.connect(PATH)`
+    2. Monitoring the connections with `mongoose.connection.on()`
+    3. Capturing the process termination events
+
+*<Part 2> Models*
+
+  - Define mongoose schema
+  - Assign default
+  - Add validations: required, boundaries(ex: max, min)...
+  - MongoDB indexes
+  - Using geograpic data
+    1. index: 2dsphere
+    2. Be aware of the order: (lng, lat)
+  - Subdocuments: Using nested schemas
+  - Exports the compiled schema, which is the model
+
+*<Part 3> MongoDB shell*
+
+  - List all local database: `$ show dbs`
+  - Switch to a specific database: `$ use local`
+  - List all collections: `$ show collections`
+  - Find the content of the collection: `$ db.<collectionName>.find(<queryObject>)`
+    + Return a formatted object: `$ db.<collectionName>.find(<queryObject>).pretty()`
+  - Create a database: `$ use <name>`
+  - Create/Update a collection and documents:
+
+    ```shell
+    $ db.locations.save({
+      name: 'Kevin',
+      age: 30,
+    })
+    
+    $ db.locations.update({name:'Kevin'},{
+      # $push: update operator for array
+      $push:{
+        blogs :{
+          id: ObjectId(),
+          creatdAt: new Date(),
+          content: 'hello world',
+        }
+      }
+    })
+    ```
