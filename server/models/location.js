@@ -37,5 +37,16 @@ const locationSchema = new Schema({
   reviews: [reviewSchema],
 });
 
+locationSchema.virtual('ratingAverage').get(function () {
+  if (this.review.length > 0) {
+    const ratingsTotalSum = this.reviews
+      .map(review => review.rating)
+      .reduce((acc, cur) => acc + cur);
+    const numOfReviews = this.reviews.legnth;
+    return ratingsTotalSum / numOfReviews;
+  }
+  return 0;
+});
+
 const location = mongoose.model('Location', locationSchema);
 module.exports = location;
