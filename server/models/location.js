@@ -29,12 +29,24 @@ const reviewSchema = new Schema({
   reviewText: String,
 });
 
+const geometrySchema = new Schema({
+  type: {
+    type: String,
+    default: 'Point',
+  },
+  coordinates: {
+    type: [Number],
+    index: '2dsphere',
+  },
+});
+
 const locationSchema = new Schema({
   name: String,
   address: String,
   facilities: [String],
   openingTimes: [openingTimeSchema],
   reviews: [reviewSchema],
+  geomerty: geometrySchema,
 });
 
 locationSchema.virtual('ratingAverage').get(function () {
