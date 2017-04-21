@@ -14,11 +14,27 @@ const openingTimeSchema = new Schema({
   },
 });
 
+const reviewSchema = new Schema({
+  author: String,
+  rating: {
+    type: Number,
+    max: 5,
+    min: 0,
+    required: true,
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now,
+  },
+  reviewText: String,
+});
+
 const locationSchema = new Schema({
   name: String,
   address: String,
   facilities: [String],
   openingTimes: [openingTimeSchema],
+  reviews: [reviewSchema],
 });
 
 const location = mongoose.model('Location', locationSchema);
