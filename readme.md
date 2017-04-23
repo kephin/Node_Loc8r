@@ -43,12 +43,12 @@
 **Building a static site with Node and Express**
   - Sketch a table to define specific route for each screen, like the table below
 
-| Collection | Screen | URL |
-|---|---|---|
-| Locations | List of locations(homepage) | / |
-| Locations | Location details | /location |
-| Locations | Location review form | /location/review/new |
-| Others | About Loc8r | /about |
+    | Collection | Screen | URL |
+    |---|---|---|
+    | Locations | List of locations(homepage) | / |
+    | Locations | Location details | /location |
+    | Locations | Location review form | /location/review/new |
+    | Others | About Loc8r | /about |
 
   - Set up routes and controllers
   - Add basic bootstrap for them
@@ -108,3 +108,42 @@
       }
     })
     ```
+
+*<Part 4> Set up with Heroku*
+
+Create and deploy Heroku:
+
+  - Create the heroku application: `$ heroku create`
+  - Deploy the application: `$ git push heroku master`
+  - To open the URI in your browser: `$ heroku open`
+
+Set up MongoLab:
+
+  - Setting up MongoLab: `$ heroku addons:add mongolab`
+  - Open it up: `$ heroku addons: open mongolab`
+  - `$ heroku config:get MONGODB_URI` will returns URI:
+
+    *mongodb://heroku_g1mhtt5l:em45s3k3r8s1g933jed1liamii@ds115411.mlab.com:15411/heroku_g1mhtt5l*
+    
+    | Component | Value |
+    |---|---|
+    | username | heroku_g1mhtt5l |
+    | password | em45s3k3r8s1g933jed1liamii |
+    | server address | ds115411.mlab.com |
+    | port | 15411 |
+    | database name | heroku_g1mhtt5l |
+
+  - Use Robomongo to connect and view data
+
+NODE_ENV
+
+  - Set up database based on process.env.NODE_ENV
+
+    ```javascript
+    let dbURI = 'mongodb://localhost:27017/Loc8r';
+    if (process.env.NODE_ENV === 'production') dbURI = process.env.MONGODB_URI;
+    mongoose.connect(dbURI);
+    ```
+
+  - Run NODE_ENV=production nodemon and nodemon, see the logs
+
