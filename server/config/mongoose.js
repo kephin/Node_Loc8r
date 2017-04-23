@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-let MONGODB_URI = 'mongodb://localhost:27017/Loc8r';
-if (process.env.NODE_ENV === 'production') MONGODB_URI = process.env.MONGOLAB_URI;
+let dbURI = 'mongodb://localhost:27017/Loc8r';
+if (process.env.NODE_ENV === 'production') dbURI = process.env.MONGODB_URI;
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(dbURI);
 
 mongoose.connection.on('connected', () => {
-  console.log(`Mongoose connected to ${MONGODB_URI}`);
+  console.log(`Mongoose connected to ${dbURI}`);
 });
 mongoose.connection.on('error', err => {
   console.log(`Mongoose connection error: ${err}`);
@@ -19,7 +19,7 @@ mongoose.connection.on('disconnected', () => {
 
 const gracefulShutdown = (msg, callback) => {
   mongoose.connection.close(() => {
-    console.log('Mongoose disconnected through ' + msg);
+    console.log(`Mongoose disconnected through ${msg}`);
     callback();
   });
 };
