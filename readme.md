@@ -137,6 +137,8 @@ Set up MongoLab:
 
 NODE_ENV
 
+  - Use `$ heroku config` to view environment variables
+  - Add environment variable: `$ heroku config:set NODE_ENV=production`
   - Set up database based on process.env.NODE_ENV
 
     ```javascript
@@ -145,5 +147,5 @@ NODE_ENV
     mongoose.connect(dbURI);
     ```
 
-  - Run NODE_ENV=production nodemon and nodemon, see the logs
-
+  - Run `$ NODE_ENV=production nodemon` in prodcution and `$ nodemon` in development
+  - Run `$ heroku logs` to make sure mongoose is connected
