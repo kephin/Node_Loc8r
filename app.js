@@ -5,7 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-require('./server/config/mongoose');
+require('./api/config/mongoose');
 const routes = require('./server/routes/index');
 
 const app = express();
