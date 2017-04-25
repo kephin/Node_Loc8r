@@ -10,21 +10,24 @@ module.exports = {
       locations: [{
         name: 'Starcups',
         address: '123 High Street, Reading, RG6 1PS',
-        rating: 3,
+        ratingAverage: 3,
         facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-        distance: '100m'
+        distance: '100m',
+        numOfReviews: 2
       }, {
         name: 'Cafe Hero',
         address: '124 High Street, Reading, RG6 1PS',
-        rating: 4,
+        ratingAverage: 4,
         facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-        distance: '200m'
+        distance: '200m',
+        numOfReviews: 4
       }, {
         name: 'Burger Queen',
         address: '125 High Street, Reading, RG6 1PS',
-        rating: 2,
+        ratingAverage: 2,
         facilities: ['Food', 'Premium wifi'],
-        distance: '250m'
+        distance: '250m',
+        numOfReviews: 1
       }]
     });
   },

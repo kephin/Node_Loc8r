@@ -17,7 +17,13 @@
               <a href="/location"><%= location.name %></a>
               <small>
                 &nbsp;
-                <%- include('_includes/rating', { rating: location.rating }); %>
+                <%- include('_includes/rating', { rating: location.ratingAverage }); %>
+                &nbsp;
+                <% if (location.numOfReviews < 2) { %>
+                  (<%= location.numOfReviews %> review)
+                <% } else { %>
+                  (<%= location.numOfReviews %> reviews)
+                <% } %>
               </small>
               <span class="badge pull-right badge-default"><%= location.distance %></span>
             </h4>
