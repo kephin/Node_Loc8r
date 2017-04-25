@@ -46,15 +46,15 @@ const locationSchema = new Schema({
   facilities: [String],
   openingTimes: [openingTimeSchema],
   reviews: [reviewSchema],
-  geomerty: geometrySchema,
+  geometry: geometrySchema,
 });
 
 locationSchema.virtual('ratingAverage').get(function () {
-  if (this.review.length > 0) {
+  if (this.reviews.length > 0) {
     const ratingsTotalSum = this.reviews
       .map(review => review.rating)
       .reduce((acc, cur) => acc + cur);
-    const numOfReviews = this.reviews.legnth;
+    const numOfReviews = this.reviews.length;
     return ratingsTotalSum / numOfReviews;
   }
   return 0;
