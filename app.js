@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 require('./api/config/mongoose');
 const routes = require('./server/routes/index');
+const routesAPI = require('./api/routes/index');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/api', routesAPI);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
