@@ -49,13 +49,16 @@ const locationSchema = new Schema({
   geometry: geometrySchema,
 });
 
+locationSchema.virtual('numOfReviews').get(function() {
+  return this.reviews.length;
+});
+
 locationSchema.virtual('ratingAverage').get(function () {
-  if (this.reviews.length > 0) {
+  if (this.numOfReviews > 0) {
     const ratingsTotalSum = this.reviews
       .map(review => review.rating)
       .reduce((acc, cur) => acc + cur);
-    const numOfReviews = this.reviews.length;
-    return ratingsTotalSum / numOfReviews;
+    return ratingsTotalSum / this.numOfReviews;
   }
   return 0;
 });
