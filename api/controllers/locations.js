@@ -33,7 +33,26 @@ module.exports = {
     }
   },
   async locationsCreate(req, res) {
-
+    try {
+      const newLocation = await Location.create({
+        name: req.body.name,
+        address: req.body.address,
+        facilities: req.body.facilities.split(',').map(facility => facility.trim()),
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)],
+        },
+        openingTimes: [{
+          days: req.body.days,
+          opening: req.body.opening,
+          closing: req.body.closing,
+          closed: req.body.closed,
+        }],
+      });
+      res.status(201).json(newLocation);
+    } catch (err) {
+      res.status(404).json(err);
+    }
   },
   async locationsReadOne(req, res) {
     const id = req.params.locationId;
