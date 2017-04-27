@@ -48,7 +48,27 @@ module.exports = {
     }
   },
   async reviewsUpdateOne(req, res) {
+    const { locationId, reviewId } = req.params;
+    if (!locationId || !reviewId) return res.status(404).json({ message: 'No locationId or reviewId in request.' });
 
+    try {
+      const location = await Location
+        .findById(locationId)
+        .select('reviews');
+      if (!location) return res.status(404).json({ message: 'Location not found.' });
+      const reviews = location.reviews.id(reviewId);
+      if (!reviews) return res.status(404).json({ message: 'Review not found.' });
+
+      const { author, rating, reviewText } = req.body;
+      reviews.author = author;
+      reviews.rating = rating;
+      reviews.reviewText = reviewText;
+
+      await location.save();
+      res.status(200).json(reviews);
+    } catch (err) {
+      res.status(404).json(err);
+    }
   },
   async reviewsDeleteOne(req, res) {
 
