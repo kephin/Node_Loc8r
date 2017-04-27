@@ -71,6 +71,21 @@ module.exports = {
     }
   },
   async reviewsDeleteOne(req, res) {
+    const { locationId, reviewId } = req.params;
+    if (!locationId || !reviewId) return res.status(404).json({ message: 'No locationId or reviewId in request.' });
 
+    try {
+      const location = await Location
+        .findById(locationId)
+        .select('reviews');
+      if (!location) return res.status(404).json({ message: 'Location not found.' });
+      const deletedReview = location.reviews.id(reviewId);
+      if (!deletedReview) return res.status(404).json({ message: 'Review not found.' });
+      deletedReview.remove();
+      await location.save();
+      res.status(200).json(deletedReview);
+    } catch (err) {
+      res.status(404).json(err);
+    }
   },
 };
