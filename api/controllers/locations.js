@@ -67,7 +67,27 @@ module.exports = {
     }
   },
   async locationsUpdateOne(req, res) {
-
+    const { locationId } = req.params;
+    try {
+      const newLocation = await Location.findByIdAndUpdate(locationId, {
+        name: req.body.name,
+        address: req.body.address,
+        facilities: req.body.facilities.split(',').map(facility => facility.trim()),
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)],
+        },
+        openingTimes: [{
+          days: req.body.days,
+          opening: req.body.opening,
+          closing: req.body.closing,
+          closed: req.body.closed,
+        }],
+      }, { new: true });
+      res.status(200).json(newLocation);
+    } catch (err) {
+      res.status(404).json(err);
+    }
   },
   async locationsDeleteOne(req, res) {
 
