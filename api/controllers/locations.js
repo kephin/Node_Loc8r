@@ -90,6 +90,12 @@ module.exports = {
     }
   },
   async locationsDeleteOne(req, res) {
-
+    const { locationId } = req.params;
+    try {
+      const location = await Location.findByIdAndRemove(locationId);
+      res.status(200).json(location);
+    } catch (err) {
+      res.status(404).json(err);
+    }
   },
 };
