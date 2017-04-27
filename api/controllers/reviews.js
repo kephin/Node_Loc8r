@@ -26,15 +26,15 @@ module.exports = {
   },
   async reviewsReadOne(req, res) {
     const { locationId, reviewId } = req.params;
-    if (!locationId || !reviewId) return res.status(404).json({ message: 'No locationId or reivewId in request.' });
+    if (!locationId || !reviewId) return res.status(404).json({ message: 'No locationId or reviewId in request.' });
 
     try {
       const location = await Location
         .findById(locationId)
         .select('name reviews');
-      if (!location) return res.status(404).json({ message: 'locationId not found.' });
+      if (!location) return res.status(404).json({ message: 'Location not found.' });
       const review = location.reviews.id(reviewId);
-      if (!review) return res.status(404).json({ message: 'reviewId not found.' });
+      if (!review) return res.status(404).json({ message: 'Review not found.' });
 
       return res.status(200).json({
         location: {
