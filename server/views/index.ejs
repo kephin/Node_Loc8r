@@ -25,7 +25,7 @@
                   (<%= location.numOfReviews %> reviews)
                 <% } %>
               </small>
-              <span class="badge pull-right badge-default"><%= location.distance %></span>
+              <span class="badge pull-right badge-default"><%= (location.distance / 1000).toFixed(1) %> km</span>
             </h4>
             <p class="address"><%= location.address %></p>
             <p>
