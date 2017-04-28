@@ -1,3 +1,8 @@
+const axios = require('axios');
+
+let apiOptions = { server: 'http://localhost:3000' };
+if (process.env.NODE_ENV === 'production') apiOptions.server = 'http://peaceful-dawn-87426.herokuapp.com';
+
 module.exports = {
   index(req, res, next) {
     res.render('index', {
