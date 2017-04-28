@@ -4,7 +4,10 @@ let apiOptions = { server: 'http://localhost:3000' };
 if (process.env.NODE_ENV === 'production') apiOptions.server = 'http://peaceful-dawn-87426.herokuapp.com';
 
 module.exports = {
-  index(req, res, next) {
+  async index(req, res, next) {
+    const response = await axios.get(`${apiOptions.server}/api/locations`, {
+      params: req.query,
+    });
     res.render('index', {
       title: 'Loc8r - find a place to work with wifi',
       pageHeader: {
@@ -12,28 +15,7 @@ module.exports = {
         strapline: 'Find places to work with wifi near you!'
       },
       sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
-      locations: [{
-        name: 'Starcups',
-        address: '123 High Street, Reading, RG6 1PS',
-        ratingAverage: 3,
-        facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-        distance: '100m',
-        numOfReviews: 2
-      }, {
-        name: 'Cafe Hero',
-        address: '124 High Street, Reading, RG6 1PS',
-        ratingAverage: 4,
-        facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-        distance: '200m',
-        numOfReviews: 4
-      }, {
-        name: 'Burger Queen',
-        address: '125 High Street, Reading, RG6 1PS',
-        ratingAverage: 2,
-        facilities: ['Food', 'Premium wifi'],
-        distance: '250m',
-        numOfReviews: 1
-      }]
+      locations: response.data,
     });
   },
   review(req, res, next) {
