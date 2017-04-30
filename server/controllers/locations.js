@@ -5,9 +5,19 @@ if (process.env.NODE_ENV === 'production') apiOptions.server = 'http://peaceful-
 
 module.exports = {
   async index(req, res, next) {
-    const response = await axios.get(`${apiOptions.server}/api/locations`, {
-      params: req.query,
-    });
+    let message;
+    let response = {};
+
+    try {
+      response = await axios.get(`${apiOptions.server}/api/locations`, {
+        params: req.query,
+      });
+      if (!response.data.length) message = 'No places found nearby!';
+    } catch (err) {
+      message = 'API lookup error.';
+      response.data = [];
+    }
+
     res.render('index', {
       title: 'Loc8r - find a place to work with wifi',
       pageHeader: {
@@ -16,7 +26,9 @@ module.exports = {
       },
       sidebar: "Looking for wifi and a seat? Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find the place you're looking for.",
       locations: response.data,
+      message,
     });
+
   },
   review(req, res, next) {
     res.render('location-info', {
