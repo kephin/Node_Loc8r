@@ -73,7 +73,7 @@
                         <%- include('_includes/rating',{ rating: review.rating }) %>
                       </span>
                       <span class="reviewAuthor"><%= review.author %></span>
-                      <small class="reviewTimestamp"><%= review.createdOn %></small>
+                      <small class="reviewTimestamp"><%= moment(review.createdOn).fromNow() %></small>
                     </div>
                     <div class="col-xs-12">
                       <p><%- review.reviewText.replace(/\n/g, '<br/>') %></p>

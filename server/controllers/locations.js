@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment');
 
 let apiOptions = { server: 'http://localhost:3000' };
 if (process.env.NODE_ENV === 'production') apiOptions.server = 'http://peaceful-dawn-87426.herokuapp.com';
@@ -49,6 +50,7 @@ module.exports = {
         callToAction: 'If you\'ve been and you like it - or if you don\'t - please leave a review to help other people just like you.'
       },
       location: locationDetail,
+      moment,
     });
   },
   createComment(req, res, next) {
