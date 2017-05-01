@@ -61,7 +61,8 @@ module.exports = {
     try {
       const location = await Location.findById(id);
       if (!location) return res.status(404).json({ message: 'Location not found' });
-      return res.status(200).json(location);
+      const locationWithRating = Object.assign({ rating: location.ratingAverage }, JSON.parse(JSON.stringify(location)));
+      return res.status(200).json(locationWithRating);
     } catch (err) {
       return res.status(404).json(err);
     }
