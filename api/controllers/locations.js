@@ -6,7 +6,7 @@ module.exports = {
   async locationsListByDistance(req, res) {
     const { lng, lat, maxDistance } = req.query;
     try {
-      const locations = await Location
+      const nearLocations = await Location
         .geoNear({
           type: 'Point',
           coordinates: [parseFloat(lng), parseFloat(lat)],
@@ -16,16 +16,13 @@ module.exports = {
           maxDistance: parseFloat(maxDistance),
         });
 
-      const outputLocations = locations
-        .map(location => ({
-          _id: location.obj._id,
-          name: location.obj.name,
-          address: location.obj.address,
-          facilities: location.obj.facilities,
+      // add distance, ratingAverage, numOfReviews properties into each location object
+      const outputLocations = nearLocations
+        .map(location => Object.assign({
           distance: location.dis,
           ratingAverage: location.obj.ratingAverage,
           numOfReviews: location.obj.numOfReviews,
-        }));
+        }, JSON.parse(JSON.stringify(location.obj))));
 
       res.status(200).json(outputLocations);
     } catch (err) {
@@ -61,16 +58,19 @@ module.exports = {
     try {
       const location = await Location.findById(id);
       if (!location) return res.status(404).json({ message: 'Location not found' });
+
+      // add ratingAverage to the returning object
       const locationWithRating = Object.assign({ rating: location.ratingAverage }, JSON.parse(JSON.stringify(location)));
-      return res.status(200).json(locationWithRating);
+
+      res.status(200).json(locationWithRating);
     } catch (err) {
-      return res.status(404).json(err);
+      res.status(404).json(err);
     }
   },
   async locationsUpdateOne(req, res) {
     const { locationId } = req.params;
     try {
-      const newLocation = await Location.findByIdAndUpdate(locationId, {
+      const updatedLocation = await Location.findByIdAndUpdate(locationId, {
         name: req.body.name,
         address: req.body.address,
         facilities: req.body.facilities.split(',').map(facility => facility.trim()),
@@ -85,7 +85,7 @@ module.exports = {
           closed: req.body.closed,
         }],
       }, { new: true });
-      res.status(200).json(newLocation);
+      res.status(200).json(updatedLocation);
     } catch (err) {
       res.status(404).json(err);
     }
