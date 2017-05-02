@@ -147,5 +147,60 @@ NODE_ENV
     mongoose.connect(dbURI);
     ```
 
-  - Run `$ NODE_ENV=production nodemon` in prodcution and `$ nodemon` in development
+  - Run `$ NODE_ENV=production nodemon` in production and `$ nodemon` in development
   - Run `$ heroku logs` to make sure mongoose is connected
+
+**RESTful API: Exposing the MongoDB to the application**
+
+  - Include routes into app.js
+
+    ```javascript
+    const routesApi = require('./app_api/routes/index');
+    app.use('/api', routesApi);
+    ```
+  - Define API routes
+  - Move models files and mongoose config into app_api
+
+Controllers:
+
+  - Read the document: `findById(_id)`
+    1. Using *req.params.id* from http://www.yourURL/:id
+    2. Using *req.query.place* from http://www.yourURL/locations?place=taipei
+  - Read the subdocument: `id()`
+    1. Find parent document first and then use id()
+    2. Limit the paths returned from mongoDB: select('name address reviews')
+  - Find multiple documents by `geoNear()`
+    1. Location.geoNear(point, options)
+    2. Be aware to parseFloat() the req.query.lng and req.query.lat
+    3. Code snippet:
+
+      ```javascript
+      const point = {
+        type: 'Point',
+        // lng first!!
+        coordinates: [lng, lat],
+      }
+      const options = {
+        spherical: true,
+        // the unit is in meters
+        maxDistance: parseFloat(req.query.maxDistance),
+        // maximum number returned
+        num: 10,
+      }
+      ```
+    4. In geoNear() outputs, each object contains a dis property and a returned document
+  - Create new document: `create()`
+  - Create new subdocument
+    1. Find the correct parent document
+    2. Push the new subdocument into the parent
+    3. Save the parent document
+  - Update the document: `findByIdAndUpdate()`
+  - Update the subdocument
+  - Delete the document: `findByIdAndRemove()`
+  - Delete the subdocument:
+
+    ```javascript
+    const location = Location.findById(_id);
+    location.reviews.id(_id).remove();
+    ```
+
