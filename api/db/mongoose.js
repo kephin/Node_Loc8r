@@ -2,13 +2,10 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-let dbURI = 'mongodb://localhost:27017/Loc8r';
-if (process.env.NODE_ENV === 'production') dbURI = process.env.MONGODB_URI;
-
-mongoose.connect(dbURI);
+mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on('connected', () => {
-  console.log(`Mongoose connected to ${dbURI}`);
+  console.log(`Mongoose connected to ${process.env.MONGODB_URI}`);
 });
 mongoose.connection.on('error', err => {
   console.log(`Mongoose connection error: ${err}`);
@@ -41,3 +38,5 @@ process.on('SIGTERM', () => {
     process.exit(0);
   });
 });
+
+module.exports = mongoose;
