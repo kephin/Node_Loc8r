@@ -1,16 +1,13 @@
 const axios = require('axios');
 const moment = require('moment');
 
-let apiOptions = { server: 'http://localhost:3000' };
-if (process.env.NODE_ENV === 'production') apiOptions.server = 'http://peaceful-dawn-87426.herokuapp.com';
-
 module.exports = {
   async index(req, res, next) {
     let message;
     let response = {};
 
     try {
-      response = await axios.get(`${apiOptions.server}/api/locations`, {
+      response = await axios.get(`${process.env.SERVER}/api/locations`, {
         params: req.query,
       });
       if (!response.data.length) message = 'No places found nearby!';
@@ -32,7 +29,7 @@ module.exports = {
   },
   async review(req, res, next) {
     try {
-      const response = await axios.get(`${apiOptions.server}/api/locations/${req.params.locationId}`);
+      const response = await axios.get(`${process.env.SERVER}/api/locations/${req.params.locationId}`);
       const locationDetail = response.data;
       locationDetail.coords = {
         lng: response.data.geometry.coordinates[0],
