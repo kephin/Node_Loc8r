@@ -1,6 +1,8 @@
 const axios = require('axios');
 const moment = require('moment');
 
+const utils = require('./utils');
+
 module.exports = {
   async index(req, res, next) {
     let message;
@@ -29,12 +31,7 @@ module.exports = {
   },
   async review(req, res, next) {
     try {
-      const response = await axios.get(`${process.env.SERVER}/api/locations/${req.params.locationId}`);
-      const locationDetail = response.data;
-      locationDetail.coords = {
-        lng: response.data.geometry.coordinates[0],
-        lat: response.data.geometry.coordinates[1],
-      };
+      const locationDetail = await utils.getLocationInfo(req.params.locationId);
       res.render('location-info', {
         title: locationDetail.name,
         pageHeader: {
@@ -49,11 +46,7 @@ module.exports = {
       });
     } catch (err) {
       // all 4XX - 6XX resopnse will be considered in reject
-      const { status, statusText } = err.response;
-      res.status(status).render('generic-text', {
-        title: `${status}, ${statusText}`,
-        content: err.response.data.message || 'Something goes wrong!',
-      });
+      next(err);
     }
   },
 };
