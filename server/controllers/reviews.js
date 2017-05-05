@@ -21,6 +21,15 @@ module.exports = {
     }
   },
   async execCreateComment(req, res, next) {
-
+    try {
+      await axios.post(`${process.env.SERVER}/api/locations/${req.params.locationId}/reviews`, {
+        author: req.body.name,
+        rating: parseInt(req.body.rating, 10),
+        reviewText: req.body.review,
+      });
+      res.status(201).redirect(`/location/${req.params.locationId}`);
+    } catch (err) {
+      next(err);
+    }
   },
 };
