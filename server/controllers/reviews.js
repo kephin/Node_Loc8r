@@ -15,6 +15,7 @@ module.exports = {
         location: {
           _id: locationId,
         },
+        error: req.query.err,
       });
     } catch (err) {
       next(err);
@@ -29,7 +30,11 @@ module.exports = {
       });
       res.status(201).redirect(`/location/${req.params.locationId}`);
     } catch (err) {
-      next(err);
+      if (err.response.status === 400 && err.response.data.name === 'ValidationError') {
+        res.redirect(`/location/${req.params.locationId}/reviews/new?err=validation`);
+      } else {
+        next(err);
+      }
     }
   },
 };

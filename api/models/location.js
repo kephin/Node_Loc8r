@@ -15,7 +15,10 @@ const openingTimeSchema = new Schema({
 });
 
 const reviewSchema = new Schema({
-  author: String,
+  author: {
+    type: String,
+    required: true,
+  },
   rating: {
     type: Number,
     max: 5,
@@ -26,7 +29,10 @@ const reviewSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  reviewText: String,
+  reviewText: {
+    type: String,
+    required: true,
+  },
 });
 
 const geometrySchema = new Schema({
