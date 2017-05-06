@@ -4,8 +4,7 @@ const Location = require('../models/location');
 
 module.exports = {
   async reviewsCreate(req, res) {
-    const { author, rating, reviewText } = req.body;
-    const newReview = { author, rating, reviewText };
+    const newReview = req.body;
     // find the correct parent document
     const { locationId } = req.params;
     let location;
@@ -13,7 +12,7 @@ module.exports = {
       location = await Location.findById(locationId).select('reviews');
       if (!location) return res.status(404).json({ message: 'Location not found.' });
     } catch (err) {
-      res.status(404).json(err);
+      return res.status(404).json(err);
     }
     // add new subdocument and save the parent document
     try {
