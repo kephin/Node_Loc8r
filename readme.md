@@ -204,3 +204,21 @@ Controllers:
     location.reviews.id(_id).remove();
     ```
 
+**Using API from inside Express**
+
+  - Install [axios](https://github.com/mzabriskie/axios) to call an API from Express
+  - Set up server URL to the env variables
+
+  ```javascript
+  const env = process.env.NODE_ENV || 'development';
+  if (env === 'development') process.env.SERVER = 'http://localhost:3000';
+  ```
+  - Use the API call to update the index, review... controller
+  - Catch errors returned by the API
+  - Use the moment.js package for display time
+  - Update routes and views
+  - Finally, add validations
+    1. Schema level, using Mongoose before the datat is saved
+    2. Application level, using Express before the data is posted to the API
+    3. At the client side, using jQuery before the form is submitted
+
