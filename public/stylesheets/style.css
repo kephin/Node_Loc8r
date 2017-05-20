@@ -21,3 +21,9 @@ body > .container:first-of-type {
 .reviewTimestamp {
     color: #ccc;
 }
+
+#map {
+  height: 350px;
+  width: 400px;
+  width: 100%;
+}
